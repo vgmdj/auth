@@ -25,6 +25,8 @@
 #   unused-packages = true
 
 
+ignored = ["github.com/vgmdj/plugins/redis"]
+
 [[constraint]]
   name = "github.com/astaxie/beego"
   version = "1.9.2"

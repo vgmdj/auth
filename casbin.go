@@ -4,11 +4,11 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
 	"github.com/casbin/casbin"
-	//"github.com/garyburd/redigo/redis"
 )
 
-type Auth struct {
-}
+const (
+	BasicPasswd = "basic authorizer"
+)
 
 type permission struct {
 	token  string
@@ -18,22 +18,28 @@ type permission struct {
 
 // NewAuthorizer returns the authorizer.
 // Use a casbin enforcer as input
-func (auth *Auth) NewBeegoAuthz(e *casbin.Enforcer, secret, key string) beego.FilterFunc {
+func NewBeegoAuthz(secret, key string, e *casbin.Enforcer) beego.FilterFunc {
 	return func(ctx *context.Context) {
-		a := &BasicAuthorizer{enforcer: e}
+		a := &basicAuthorizer{
+			enforcer: e,
+			userItem: key,
+		}
 
 		token, ok := ctx.GetSecureCookie(secret, key)
 		if !ok {
 			a.RequireToken(ctx.ResponseWriter)
+			return
 		}
 
-		p := &permission{
-			token:  token,
-			method: ctx.Request.Method,
-			path:   ctx.Request.URL.Path,
+		userId := a.GetUserId(token)
+		if userId == "" {
+			a.LoginExpired(ctx.ResponseWriter)
+			return
 		}
 
-		if !a.CheckPermission(p) {
+		a.SetUserId(ctx.Request, userId)
+
+		if e != nil && !a.CheckPermission(*ctx.Request, userId) {
 			a.RequirePermission(ctx.ResponseWriter)
 		}
 	}
