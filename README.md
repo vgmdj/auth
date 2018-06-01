@@ -20,12 +20,30 @@
 ### beego
  
 ```
-    handler := beego.NewControllerRegister()
+    import(
+        "github.com/vgmdj/auth"
+        "github.com/vgmdj/plugins/redis"
+    )
     
-    e := casbin.NewEnforcer("authz_model.conf", "authz_policy.csv")
-    handler.InsertFilter("*", beego.BeforeRouter, NewBeegoAuthz(secret, userItem, e))
+    ......
+
+    redis.NewRedis("", "", 0)
     
-    handler.Any("*", func(ctx *context.Context) {
-    	ctx.Output.SetStatus(200)
-    })
+    ......
+    
+    filter := auth.NewBeegoAuthz(FilterSecret, FilterUserItem, e)
+    
+    ns := beego.NewNamespace("/test",		
+		beego.NSNamespace("/user",
+			beego.NSInclude(
+				&controllers.UserController{},
+			),
+
+			beego.NSBefore(filter.CasbinFilter),
+		),
+	)
+
+	beego.AddNamespace(ns)
+    
+    
 ```
