@@ -42,8 +42,8 @@
 			beego.NSBefore(filter.CasbinFilter),
 		),
 	)
-
-	beego.AddNamespace(ns)
+	
+    beego.AddNamespace(ns)
     
     
 ```
