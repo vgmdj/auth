@@ -1,0 +1,25 @@
+# github.com/astaxie/beego v1.10.1
+github.com/astaxie/beego
+github.com/astaxie/beego/context
+github.com/astaxie/beego/config
+github.com/astaxie/beego/context/param
+github.com/astaxie/beego/grace
+github.com/astaxie/beego/logs
+github.com/astaxie/beego/session
+github.com/astaxie/beego/toolbox
+github.com/astaxie/beego/utils
+# github.com/casbin/casbin v1.6.0
+github.com/casbin/casbin
+github.com/casbin/casbin/effect
+github.com/casbin/casbin/model
+github.com/casbin/casbin/persist
+github.com/casbin/casbin/persist/file-adapter
+github.com/casbin/casbin/rbac
+github.com/casbin/casbin/rbac/default-role-manager
+github.com/casbin/casbin/util
+github.com/casbin/casbin/config
+# github.com/vgmdj/plugins v0.0.0-20180804144230-2c099dbff3dd
+github.com/vgmdj/plugins/redis
+# golang.org/x/crypto v0.0.0-20180820150726-614d502a4dac
+golang.org/x/crypto/acme/autocert
+golang.org/x/crypto/acme
