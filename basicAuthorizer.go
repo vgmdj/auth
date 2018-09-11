@@ -46,7 +46,7 @@ func (a *basicAuthorizer) GetUserId(token string) string {
 		return ""
 	}
 
-	userId, _ := redis.GetString(token, a.userItem)
+	userId, _ := redis.HGetString(token, a.userItem)
 	return userId
 }
 
